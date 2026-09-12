@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            padding: 30px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .student {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .delete {
+            background-color: red;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>Student Management System</h1>
+
+
+    <!-- Student Form -->
+
+    <form action="/students" method="POST">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Student Name"
+            required
+        >
+
+        <input
+            type="number"
+            name="rollNumber"
+            placeholder="Roll Number"
+            required
+        >
+
+        <input
+            type="text"
+            name="course"
+            placeholder="Course"
+            required
+        >
+
+        <button type="submit">
+            Add Student
+        </button>
+
+    </form>
+
+
+    <h2>Students List</h2>
+
+
+    <!-- Display Students -->
+
+    <% students.forEach(student => { %>
+
+        <div class="student">
+
+            <b><%= student.name %></b>
+
+            <br>
+
+            Roll Number:
+            <%= student.rollNumber %>
+
+            <br>
+
+            Course:
+            <%= student.course %>
+
+            <br><br>
+
+            <button
+                class="delete"
+                onclick="deleteStudent('<%= student._id %>')"
+            >
+                Delete
+            </button>
+
+        </div>
+
+    <% }) %>
+
+
+</div>
+
+
+<script>
+
+async function deleteStudent(id) {
+
+    if (confirm("Delete this student?")) {
+
+        await fetch("/students/" + id, {
+            method: "DELETE"
+        });
+
+        location.reload();
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
